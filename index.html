@@ -116,14 +116,15 @@
   .grad-shine{background-size:200% auto; animation:gradShine 4.5s ease-in-out infinite}
   @keyframes gradShine{0%,100%{background-position:0% center} 50%{background-position:100% center}}
 
-  /* Mobile */
+  /* Mobile — tight experience */
   @media (max-width:900px){
-    body{overflow:hidden; -webkit-text-size-adjust:100%}
+    body{overflow:hidden; -webkit-text-size-adjust:100%; overscroll-behavior:none}
     #deck{
       height:100dvh;
       height:100vh;
       scroll-snap-type:y proximity;
       -webkit-overflow-scrolling:touch;
+      overscroll-behavior-y:contain;
     }
     section{
       height:auto;
@@ -131,55 +132,97 @@
       min-height:100vh;
       overflow:visible;
       justify-content:flex-start;
-      padding:72px 5.5vw 88px;
+      padding:max(20px, env(safe-area-inset-top)) 5vw calc(70px + env(safe-area-inset-bottom));
       box-sizing:border-box;
+      gap:0;
     }
     .g3,.g4,.g2{grid-template-columns:1fr}
-    .grid{gap:10px; margin-top:18px}
-    .ladder{flex-direction:column}
-    h1{font-size:clamp(32px,9vw,48px)}
-    h2{font-size:clamp(24px,7vw,34px); max-width:none}
-    .kicker{font-size:11px; margin-bottom:14px; letter-spacing:.18em}
-    .lede,.punch{font-size:15px; margin-top:12px}
-    .note{font-size:11.5px}
-    .tile,.step,.price,.case{padding:16px 15px; border-radius:14px}
-    .tile .big{font-size:clamp(26px,8vw,36px)}
-    .logo{width:min(180px,48vw) !important; margin-bottom:24px !important}
+    /* Stat tiles: 2-up for a tighter scan */
+    #s2 .g3, #s5 .g3{grid-template-columns:1fr 1fr}
+    #s5 .g3 .chart{grid-column:1 / -1}
+    .grid{gap:8px; margin-top:12px}
+    .ladder{flex-direction:column; gap:8px; margin-top:14px}
+    h1{font-size:clamp(30px,8.4vw,44px); line-height:1.05}
+    h2{font-size:clamp(22px,6.4vw,30px); max-width:none; line-height:1.1}
+    .kicker{font-size:10.5px; margin-bottom:10px; letter-spacing:.16em}
+    .kicker::before{width:22px}
+    .lede{font-size:14px; margin-top:8px; line-height:1.45}
+    .punch{font-size:14px; margin-top:10px; line-height:1.4}
+    .note{font-size:11px; margin-top:10px; line-height:1.4}
+    .tile,.step,.price,.case{padding:12px 12px; border-radius:12px}
+    .tile::after{display:none}
+    .tile .big{font-size:clamp(24px,7vw,32px)}
+    .tile .lbl,.step p,.case p,.price .d{font-size:12px; line-height:1.4}
+    .tile .sub,.step .n,.case .who,.price .tier{font-size:10.5px}
+    .step h3{font-size:14px; margin-bottom:4px}
+    .price .amt{font-size:clamp(22px,6vw,30px); margin:4px 0 2px}
+    .price .take{margin-top:8px; padding:7px 9px; font-size:11.5px}
+    .logo{width:min(140px,40vw) !important; margin-bottom:16px !important}
     .dots{
-      top:auto; bottom:14px; right:auto; left:50%;
+      top:auto; bottom:max(10px, env(safe-area-inset-bottom));
+      right:auto; left:50%;
       transform:translateX(-50%);
-      flex-direction:row; gap:7px;
-      padding:8px 12px;
-      background:rgba(10,10,11,.72);
+      flex-direction:row; gap:0;
+      padding:6px 8px;
+      background:rgba(10,10,11,.78);
       border:1px solid var(--line);
       border-radius:999px;
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      z-index:20;
     }
-    .dots a{width:6px; height:6px}
-    .dots a.on{transform:scale(1.35)}
-    .foot,.slabel,.hint{font-size:11px; bottom:56px}
-    .foot{left:5.5vw}
-    .slabel,.hint{right:5.5vw}
-    .ritem{flex-direction:column; gap:4px; align-items:flex-start}
-    .ritem b{min-width:0}
-    .comp{margin-top:18px; overflow-x:auto; -webkit-overflow-scrolling:touch}
-    .comp table{min-width:560px; font-size:11px}
-    .comp th,.comp td{padding:9px 10px}
-    .bars{height:110px; gap:10px}
-    .chart{padding:14px 12px 10px}
-    .bench-strip{gap:8px}
-    .chip{padding:6px 11px; font-size:11.5px}
-    .metrics-row > div{min-width:46%; border-right:none !important; padding-right:0 !important; padding-bottom:10px}
-    .ring,.glow{opacity:.55}
-    .case img{width:64px; height:64px}
+    .dots a{
+      width:22px; height:22px;
+      display:flex; align-items:center; justify-content:center;
+      background:transparent;
+    }
+    .dots a::after{
+      content:""; width:6px; height:6px; border-radius:50%; background:var(--line);
+      transition:all .25s;
+    }
+    .dots a.on{transform:none; background:transparent; box-shadow:none}
+    .dots a.on::after{background:var(--mag); transform:scale(1.35); box-shadow:0 0 10px rgba(255,45,135,.6)}
+    .slabel{display:none}
+    .foot,.hint{font-size:10.5px; bottom:calc(48px + env(safe-area-inset-bottom))}
+    .foot{left:5vw}
+    .hint{right:5vw}
+    .ritem{flex-direction:column; gap:2px; align-items:flex-start; padding-bottom:8px}
+    .ritem b{min-width:0; font-size:14px}
+    .ritem span{font-size:12.5px}
+    .rlist{margin-top:16px; gap:8px}
+    .comp{margin-top:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px}
+    .comp table{min-width:520px; font-size:10.5px}
+    .comp th,.comp td{padding:8px 9px}
+    .bars{height:88px; gap:8px}
+    .bval{font-size:11px}
+    .bx{font-size:10px; margin-top:5px; padding-top:5px}
+    .chart{padding:12px 11px 8px; border-radius:12px}
+    .chart .t{font-size:12.5px}
+    .chart .s{font-size:10.5px; margin:2px 0 8px}
+    .bench-strip{gap:6px; margin-top:10px}
+    .chip{padding:5px 9px; font-size:11px}
+    .chip-row{gap:6px; margin-top:12px}
+    .metrics-row{gap:8px; margin-top:10px}
+    .metrics-row > div{min-width:46%; border-right:none !important; padding-right:0 !important; padding-bottom:6px}
+    .metrics-row > div > div:first-child{font-size:20px !important}
+    .ring,.glow{opacity:.35}
+    .case img{width:52px; height:52px; margin-bottom:10px !important}
+    .case h3{font-size:15px}
+    /* Quieter motion on small screens */
+    .hint .key{animation-duration:2.8s}
+    .ring.m{animation:none}
+    section.vis .glow{animation:none}
+    .grad-shine{animation:none}
   }
-  @media (max-width:900px) and (max-height:720px){
-    section{padding-top:56px; padding-bottom:80px}
-    .grid{margin-top:14px}
+  @media (max-width:900px) and (max-height:700px){
+    section{padding-top:max(12px, env(safe-area-inset-top)); padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+    .grid{margin-top:10px; gap:6px}
+    .logo{width:min(110px,34vw) !important; margin-bottom:10px !important}
+    h1{font-size:clamp(28px,7.5vw,38px)}
+    h2{font-size:clamp(20px,5.8vw,28px)}
   }
   @media (hover:none){
-    .tile:hover,.step:hover,.price:hover,.case:hover{transform:none; box-shadow:none}
+    .tile:hover,.step:hover,.price:hover,.case:hover{transform:none; box-shadow:none; border-color:var(--line)}
   }
 
   @media(prefers-reduced-motion:reduce){
