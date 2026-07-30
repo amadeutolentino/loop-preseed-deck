@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LOOP — Where Gatherings Become Businesses</title>
 <style>
   :root{
@@ -14,8 +14,8 @@
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%}
   body{background:var(--bg); color:var(--ink); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; overflow:hidden}
-  #deck{height:100vh; overflow-y:auto; scroll-snap-type:y mandatory; scroll-behavior:smooth}
-  section{height:100vh; scroll-snap-align:start; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; padding:0 7vw; border-bottom:1px solid var(--line)}
+  #deck{height:100vh; height:100dvh; overflow-y:auto; scroll-snap-type:y mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch}
+  section{height:100vh; height:100dvh; scroll-snap-align:start; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; padding:0 7vw; border-bottom:1px solid var(--line)}
   .ring{position:absolute; border-radius:50%; border:1.5px solid rgba(255,255,255,.07); pointer-events:none}
   .ring.m{border-color:rgba(255,45,135,.22); box-shadow:0 0 120px rgba(255,45,135,.10), inset 0 0 80px rgba(255,45,135,.05)}
   .glow{position:absolute; width:70vw; height:70vw; border-radius:50%; background:radial-gradient(circle, rgba(255,45,135,.13), transparent 60%); pointer-events:none; filter:blur(10px)}
@@ -32,11 +32,13 @@
   .slabel{position:absolute; bottom:24px; right:7vw; font-size:12px; color:var(--ink-3); letter-spacing:.04em}
   .hint{position:absolute; bottom:22px; right:7vw; font-size:12px; color:var(--ink-3); display:flex; align-items:center; gap:8px}
   .bench-strip{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+  .metrics-row{display:flex; gap:14px; margin-top:14px; flex-wrap:wrap}
+  .metrics-row > div{flex:1; min-width:150px}
+  .metrics-row > div:not(:last-child){border-right:1px solid var(--line); padding-right:14px}
   .bench-strip .chip{font-size:12px}
   .hint .key{border:1px solid var(--line); border-radius:6px; padding:2px 8px; font-size:12px; color:var(--ink-2)}
   .grid{display:grid; gap:14px; margin-top:30px}
   .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
-  @media(max-width:900px){.g3,.g4,.g2{grid-template-columns:1fr}}
   .tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 20px; position:relative; overflow:hidden}
   .tile::after{content:""; position:absolute; inset:auto -30% -60% auto; width:160px; height:160px; border-radius:50%; border:1.5px solid rgba(255,45,135,.14)}
   .tile .big{font-size:clamp(30px,3vw,46px); font-weight:800; letter-spacing:-.02em; line-height:1}
@@ -113,7 +115,73 @@
   section.vis .logo{transform:scale(1); filter:drop-shadow(0 0 34px rgba(255,45,135,.35))}
   .grad-shine{background-size:200% auto; animation:gradShine 4.5s ease-in-out infinite}
   @keyframes gradShine{0%,100%{background-position:0% center} 50%{background-position:100% center}}
-  @media(max-width:900px){section{padding:0 6vw} .ladder{flex-direction:column}}
+
+  /* Mobile */
+  @media (max-width:900px){
+    body{overflow:hidden; -webkit-text-size-adjust:100%}
+    #deck{
+      height:100dvh;
+      height:100vh;
+      scroll-snap-type:y proximity;
+      -webkit-overflow-scrolling:touch;
+    }
+    section{
+      height:auto;
+      min-height:100dvh;
+      min-height:100vh;
+      overflow:visible;
+      justify-content:flex-start;
+      padding:72px 5.5vw 88px;
+      box-sizing:border-box;
+    }
+    .g3,.g4,.g2{grid-template-columns:1fr}
+    .grid{gap:10px; margin-top:18px}
+    .ladder{flex-direction:column}
+    h1{font-size:clamp(32px,9vw,48px)}
+    h2{font-size:clamp(24px,7vw,34px); max-width:none}
+    .kicker{font-size:11px; margin-bottom:14px; letter-spacing:.18em}
+    .lede,.punch{font-size:15px; margin-top:12px}
+    .note{font-size:11.5px}
+    .tile,.step,.price,.case{padding:16px 15px; border-radius:14px}
+    .tile .big{font-size:clamp(26px,8vw,36px)}
+    .logo{width:min(180px,48vw) !important; margin-bottom:24px !important}
+    .dots{
+      top:auto; bottom:14px; right:auto; left:50%;
+      transform:translateX(-50%);
+      flex-direction:row; gap:7px;
+      padding:8px 12px;
+      background:rgba(10,10,11,.72);
+      border:1px solid var(--line);
+      border-radius:999px;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+    .dots a{width:6px; height:6px}
+    .dots a.on{transform:scale(1.35)}
+    .foot,.slabel,.hint{font-size:11px; bottom:56px}
+    .foot{left:5.5vw}
+    .slabel,.hint{right:5.5vw}
+    .ritem{flex-direction:column; gap:4px; align-items:flex-start}
+    .ritem b{min-width:0}
+    .comp{margin-top:18px; overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .comp table{min-width:560px; font-size:11px}
+    .comp th,.comp td{padding:9px 10px}
+    .bars{height:110px; gap:10px}
+    .chart{padding:14px 12px 10px}
+    .bench-strip{gap:8px}
+    .chip{padding:6px 11px; font-size:11.5px}
+    .metrics-row > div{min-width:46%; border-right:none !important; padding-right:0 !important; padding-bottom:10px}
+    .ring,.glow{opacity:.55}
+    .case img{width:64px; height:64px}
+  }
+  @media (max-width:900px) and (max-height:720px){
+    section{padding-top:56px; padding-bottom:80px}
+    .grid{margin-top:14px}
+  }
+  @media (hover:none){
+    .tile:hover,.step:hover,.price:hover,.case:hover{transform:none; box-shadow:none}
+  }
+
   @media(prefers-reduced-motion:reduce){
     .hint .key,.ring.m,section.vis .glow,.grad-shine{animation:none}
     .tile:hover,.step:hover,.price:hover,.case:hover{transform:none}
@@ -313,11 +381,11 @@
   </div>
   <div class="chart" data-a style="--d:.3s; margin-top:18px">
     <div class="t">One active community — what it looks like, and what it's worth to Loop</div>
-    <div style="display:flex; gap:14px; margin-top:14px; flex-wrap:wrap">
-      <div style="flex:1; min-width:150px; border-right:1px solid var(--line); padding-right:14px"><div style="font-size:24px; font-weight:800">~100</div><div style="font-size:12.5px; color:var(--ink-2)">members</div></div>
-      <div style="flex:1; min-width:150px; border-right:1px solid var(--line); padding-right:14px"><div style="font-size:24px; font-weight:800">2–4</div><div style="font-size:12.5px; color:var(--ink-2)">gatherings a month</div></div>
-      <div style="flex:1.2; min-width:170px; border-right:1px solid var(--line); padding-right:14px"><div style="font-size:24px; font-weight:800">$5,000<span style="font-size:13px; font-weight:500; color:var(--ink-2)">/yr</span></div><div style="font-size:12.5px; color:var(--ink-2)">in tickets, backing &amp; shop</div></div>
-      <div style="flex:1.4; min-width:220px"><div style="font-size:24px; font-weight:800; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent">$600 + $400 ≈ $1,000</div><div style="font-size:12.5px; color:var(--ink-2)">to Loop per year — the take (12%, or 5% with Pro) + subscriptions ($20/mo community · $10/mo members)</div></div>
+    <div class="metrics-row">
+      <div><div style="font-size:24px; font-weight:800">~100</div><div style="font-size:12.5px; color:var(--ink-2)">members</div></div>
+      <div><div style="font-size:24px; font-weight:800">2–4</div><div style="font-size:12.5px; color:var(--ink-2)">gatherings a month</div></div>
+      <div><div style="font-size:24px; font-weight:800">$5,000<span style="font-size:13px; font-weight:500; color:var(--ink-2)">/yr</span></div><div style="font-size:12.5px; color:var(--ink-2)">in tickets, backing &amp; shop</div></div>
+      <div style="flex:1.4; min-width:220px; border-right:none; padding-right:0"><div style="font-size:24px; font-weight:800; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent">$600 + $400 ≈ $1,000</div><div style="font-size:12.5px; color:var(--ink-2)">to Loop per year — the take (12%, or 5% with Pro) + subscriptions ($20/mo community · $10/mo members)</div></div>
     </div>
   </div>
   <div class="comp" data-a style="--d:.4s">
